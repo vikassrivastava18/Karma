@@ -1,7 +1,7 @@
 from datetime import timedelta, timezone
 from django.utils import timezone
 
-from app.models import *
+from models import *
 
 def add_parayer_karma(date):
     karma = Karma(

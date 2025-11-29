@@ -55,20 +55,11 @@ axios.interceptors.response.use(
   response => response,
   error => {
     // Add more error handling here
-    if (error.response && error.response.status === 401) {
-      window.location.href = '/'; // Redirect to home
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/login'; // Redirect to login
     }
     return Promise.reject(error);
   }
 );
 
-axios.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response && error.response.status === 401) {
-      window.location.href = '/'; // Redirect to home
-    }
-    return Promise.reject(error);
-  }
-);
 

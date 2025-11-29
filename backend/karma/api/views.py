@@ -89,7 +89,7 @@ class ReflectionView(generics.ListCreateAPIView):
     serializer_class = ReflectionSerializer
 
     def get_queryset(self):
-        return ReflectionSerializer.objects.filter(user=self.request.user)
+        return Reflection.objects.filter(user=self.request.user)
 
     def post(self, request, *args, **kwargs):
         # Automatically set the user field to the authenticated user
