@@ -32,7 +32,6 @@ class KarmaListView(generics.ListCreateAPIView):
 
 
 class KarmaDetailView(generics.RetrieveUpdateDestroyAPIView):
-    
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Karma.objects.all()
@@ -70,7 +69,7 @@ class ToDoDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TodoSerializer
 
     def put(self, request, *args, **kwargs):
-        
+
         if request.data['status'] == 'co':
             request.data['completed_on'] = timezone.now()
 
