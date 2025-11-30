@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import DailyKarma
+from .models import DailyKarma, Reflection
 
 class DailyKarmaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,3 +9,10 @@ class DailyKarmaSerializer(serializers.ModelSerializer):
 
     def get_review_display(self, obj):
         return obj.get_review_display()
+
+
+
+class ReflectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reflection
+        fields = '__all__'

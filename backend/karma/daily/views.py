@@ -4,8 +4,8 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
-from .models import DailyKarma, DayReview
-from .serializers import DailyKarmaSerializer
+from .models import DailyKarma, DayReview, Reflection
+from .serializers import DailyKarmaSerializer, ReflectionSerializer
 # Create your views here.
 
 

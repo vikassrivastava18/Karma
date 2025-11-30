@@ -46,8 +46,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'auth',
-    'api',
+    'auths',
+    'daily',
+    'todo',
     'django_crontab',
 ]
 

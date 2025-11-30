@@ -8,7 +8,7 @@ from .serializers import TodoSerializer
 # Create your views here.
 
 
-class ToDoListView(generics.ListCreateAPIView):
+class ToDoListCreateView(generics.ListCreateAPIView):
     """
         GET - Returns list of todos for the user
         POST - Creates a new Todo for the user
@@ -27,7 +27,7 @@ class ToDoListView(generics.ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
 
-class ToDoDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ToDoDetailUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     """
         GET - Returns a single Karma
         PUT - Updates a single Karma

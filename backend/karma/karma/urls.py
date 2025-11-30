@@ -21,8 +21,9 @@ from rest_framework.authtoken import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('auth.urls')),
-    path('api/', include('api.urls'))
+    path('auth/', include('auths.urls')),
+    path('daily/', include('daily.urls')),
+    path('todo/', include('todo.urls'))
 ]
 
 if settings.DEBUG:
