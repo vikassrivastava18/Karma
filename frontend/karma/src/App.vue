@@ -44,15 +44,6 @@ export default {
         width: 100vw;
     }
 
-    main {
-        margin: 0;
-        padding: 0px;
-        padding-bottom: 30px;
-        /* min-height: 100vh; */
-        background-color: #8EC5FC;
-        background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-    }
-
     .icon {
         height: 20px;
     }

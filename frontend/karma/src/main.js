@@ -9,10 +9,16 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import HomePage from './pages/HomPage.vue'
 import LoginPage from './pages/LoginPage.vue'
+import NotesEditorPage from './pages/NotesEditorPage.vue'
+import NotesListPage from './pages/NotesListPage.vue'
+import NoteViewerPage from './pages/NoteViewerPage.vue'
 
 const routes = [
   { path: '/', component: HomePage, meta: { requiresAuth: true } },
-  { path: '/login', component: LoginPage},
+  { path: '/login', component: LoginPage },
+  { path: '/create-note', component: NotesEditorPage, meta: { requiresAuth: true } },
+  { path: '/notes', component: NotesListPage, meta: { requiresAuth: true } },
+  { path: '/notes/:noteId', component: NoteViewerPage, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({
@@ -55,7 +61,7 @@ axios.interceptors.response.use(
   response => response,
   error => {
     // Add more error handling here
-    if (error.response && error.response.status === 403) {
+    if (error.response && [400, 401, 403].includes(error.response.status)) {
       window.location.href = '/login'; // Redirect to login
     }
     return Promise.reject(error);
