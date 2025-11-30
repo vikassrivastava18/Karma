@@ -22,8 +22,8 @@
                         @dblclick="openDetails(karma.id)">
 
                         <span class="content">
-                            <b>{{ karma.todo.split(' ')[0] }}</b> {{ karma.todo.split(' ').slice(1).join(' ') }}
-                            <IconComponent :type="karma.todo_type" />
+                            <IconComponent :type="karma.todo_type" /> &nbsp;
+                            <b>{{ karma.todo.split(' ')[0] }}</b> {{ karma.todo.split(' ').slice(1).join(' ') }}                            
                             <IconComponent :type="ar" style="float: right;" @click="archiveKarma(karma.id)" />
                         </span>
                     </card>
@@ -101,7 +101,7 @@ export default {
             return text.length > length ? text.substring(0, length) + '...' : text;
         },
         async getTodos() {
-            const url = baseUrl + '/api/todos';
+            const url = baseUrl + '/todo/todos';
 
             try {
                 const res = await this.$axios.get(url);
@@ -132,7 +132,7 @@ export default {
 
         async editKarma(id, list) {
             const karma = this.AllTasks.find(karma => karma.id == id);
-            const url = baseUrl + '/api/todos/' + id;
+            const url = baseUrl + '/todo/todos/' + id;
             const updatedData = { ...karma, "review": list };
 
             try {
@@ -159,7 +159,7 @@ export default {
 
         async archiveKarma(id) {
             const karma = this.AllTasks.find(karma => karma.id === id);
-            const url = `${baseUrl}/api/todos/${id}`;
+            const url = `${baseUrl}/todo/todos/${id}`;
             const updatedData = { ...karma, status: 'ar' }; // Update status to 'ar'
 
             try {

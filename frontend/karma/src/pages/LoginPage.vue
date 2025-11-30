@@ -53,7 +53,7 @@ export default {
         async submit() {
             console.log("COnfig: ", baseUrl);
             
-            const url = baseUrl + '/login'
+            const url = baseUrl + '/auth/login'
             const init_obj = {
                 method: 'POST',
                 headers: {

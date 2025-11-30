@@ -13,9 +13,9 @@
                 <card v-for="karma of filteredTasks[status.id]" :key="karma.id" :id="karma.id" class="card" draggable="true"
                     @dragstart="startDrag($event, karma.id)">
 
-                    <span class="title">
-                        {{ karma.title }}
+                    <span class="">
                         <IconComponent :type="karma.type" />
+                        {{ karma.title }}                        
                     </span>
                     
                     <span class="content" v-html="karma.karma">
@@ -61,7 +61,7 @@ export default {
     methods: {
         async getKarmas() {
             // Modiify for API
-            const url = baseUrl + '/api/tasks'
+            const url = baseUrl + '/daily/todos'
 
             try {
                 const res = await this.$axios.get(url)
@@ -78,7 +78,7 @@ export default {
         async editKarma(id, list) {            
             // Modify for API
             const karma = this.AllKarmas.find(karma => karma.id == id)
-            const url = baseUrl + '/api/tasks/' + id
+            const url = baseUrl + '/daily/todos/' + id
             const updatedData = {...karma, "review": list};
             console.log("updated data: ", updatedData);
             

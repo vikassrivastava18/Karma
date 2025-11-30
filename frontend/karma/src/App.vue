@@ -31,58 +31,56 @@ export default {
 </script>
 
 <style>
-* {
-    font-family: Raleway, sans-serif;
-}
+    * {
+        font-family: Raleway, sans-serif;
+    }
 
-h1 {
-    margin-block: 0 10px;
-}
+    h1 {
+        margin-block: 0 10px;
+    }
 
-html, main, body {
-    margin: 0px;
-    width: 100vw;
-}
+    html, main, body {
+        margin: 0px;
+        width: 100vw;
+    }
 
-main {
-    margin: 0;
-    padding: 0px;
-    padding-bottom: 30px;
-    /* min-height: 100vh; */
-    background-color: #8EC5FC;
-    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-}
+    main {
+        margin: 0;
+        padding: 0px;
+        padding-bottom: 30px;
+        /* min-height: 100vh; */
+        background-color: #8EC5FC;
+        background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+    }
 
-.icon {
-    height: 20px;
-}
+    .icon {
+        height: 20px;
+    }
 
-.title {
-    font-weight: 800;
-    font-size: 22px;
-}
+    .title {
+        font-weight: 800;
+        font-size: 22px;
+    }
 
-.content {
-    color: #808080;
-    hyphens: auto;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-}
+    .content {
+        color: #808080;
+        hyphens: auto;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
 
-.user-prio-wrapper {
-    padding-top: 8px;
-    display: flex;
-    justify-content: space-between;
-}
+    .user-prio-wrapper {
+        padding-top: 8px;
+        display: flex;
+        justify-content: space-between;
+    }
 
-.user {
-    color: #3742fa;
-    font-weight: 700;
-}
-
-
+    .user {
+        color: #3742fa;
+        font-weight: 700;
+    }
 
 </style>

@@ -59,7 +59,7 @@ export default {
         async saveTodo(e) {
             e.preventDefault();
 
-            const url = baseUrl + '/api/todos';
+            const url = baseUrl + '/todo/todos';
             const init_obj = {
                 method: 'POST',
                 headers: {

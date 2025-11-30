@@ -24,7 +24,7 @@ export default {
         async submitReflection() {
             // Make API call to submit the reflection
             try {
-                const url = baseUrl + '/api/reflections'
+                const url = baseUrl + '/daily/reflections'
                 const reflection = { reflection: this.reflection }
                 await this.$axios.post(url, reflection)
                 
