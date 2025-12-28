@@ -1,6 +1,6 @@
 <template>
     <div class="note-list">
-        <h2>Saved Notes</h2>
+        <h1 style="text-align: center;">Saved Notes</h1>
 
 
         <div v-if="loading">Loading…</div>
@@ -51,20 +51,20 @@ function format(date) {
 
 
 <style scoped>
-.note-item {
-    padding: 12px;
-    border: 1px solid #ddd;
-    margin: 6px 0;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
+    .note-item {
+        padding: 12px;
+        border: 1px solid #ddd;
+        margin: 6px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
 
-.note-item:hover {
-    background: #eef5ff;
-}
+    .note-item:hover {
+        background: #eef5ff;
+    }
 
-.error {
-    color: red;
-}
+    .error {
+        color: red;
+    }
 </style>

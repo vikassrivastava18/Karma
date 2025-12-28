@@ -11,7 +11,6 @@ class DailyKarmaSerializer(serializers.ModelSerializer):
         return obj.get_review_display()
 
 
-
 class ReflectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reflection

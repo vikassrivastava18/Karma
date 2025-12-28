@@ -1,11 +1,11 @@
 <template>
-    <div class="note-viewer" v-if="note">
+    <div class="note-viewer p-4" v-if="note" >
         <h1>{{ note.title }}</h1>
 
-        <div v-for="(b, i) in note.blocks" :key="i">
-            <h2 v-if="b.type === 'heading'">{{ b.content }}</h2>
-            <p v-else-if="b.type === 'paragraph'">{{ b.content }}</p>
-            <img v-else-if="b.type === 'image'" :src="b.content" class="note-image" />
+        <div v-for="(b, i) in note.blocks" :key="i" class="p-2 m-2">
+            <h2 v-if="b.type === 'heading'" class="p-1">{{ b.content }}</h2>
+            <p v-else-if="b.type === 'paragraph'" class="p-1">{{ b.content }}</p>
+            <img v-else-if="b.type === 'image'" :src="b.content" class="note-image p-1" />
         </div>
     </div>
 

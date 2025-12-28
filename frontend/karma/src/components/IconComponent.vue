@@ -1,7 +1,7 @@
 
 <template class="mx-3">
     <!-- <span v-html="iconSvg"></span> -->
-    <img :src="iconSvg" alt="Icon for work type" width="25" />
+    <img :src="iconSvg" alt="Icon for work type" width="20" />
 </template> 
 
 <script> 

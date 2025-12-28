@@ -1,20 +1,59 @@
 <template>
-    <!-- Toast -->
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
-    <div id="liveToastError" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">Update Failed</strong>
-            <small>Just Now</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            Some error occured!
-        </div>
+  <div
+    v-if="error.show"
+    class="position-fixed top-0 end-0 p-3"
+    style="z-index: 11"
+  >
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">{{ error.title }}</strong>
+        <small>Just now</small>
+        <button
+          type="button"
+          class="btn-close"
+          @click="close"
+        ></button>
+      </div>
+      <div class="toast-body">
+        {{ error.message }}
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
+import { computed, watch } from 'vue'
+import { useStore } from 'vuex'
+
+export default {
+  name: 'ErrorToastComponent',
+  setup() {
+    const store = useStore()
+
+    const error = computed(() => store.state.error.errorToast)
+
+    // Auto-hide after 4 seconds
+    watch(
+      () => error.value?.timestamp,
+      () => {
+        if (error.value && error.value.show) {
+          setTimeout(() => {
+            store.dispatch('error/hideError')
+          }, 4000)
+        }
+      }
+    )
+
+    const close = () => {
+      store.dispatch('error/hideError')
+    }
+
+    return {
+      error,
+      close
+    }
+  }
+}
 </script>
 
 <style scoped>

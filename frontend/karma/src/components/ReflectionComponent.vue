@@ -1,6 +1,7 @@
 <template>
-    <div class="reflection-component card shadow-sm">
-        <h2>Daily Reflection</h2>
+    <h2 style="text-align: center;">Daily Reflection</h2>
+    <div class="reflection-component card shadow-sm mb-4">
+        
         <form @submit.prevent="submitReflection">
             <div class="form-group">
                 <textarea id="reflection" v-model="reflection" class="form-control" required></textarea>
@@ -42,9 +43,9 @@ export default {
 <style scoped>
     .reflection-component {
         padding: 30px;
-        max-width: 75vw;
+        max-width: 80vw;
         margin: auto;
-        margin-top: 100px;
+        margin-top: 30px;
         border: 1px solid #ccc;
         border-radius: 4px;
         background-color: lightyellow;

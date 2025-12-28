@@ -1,37 +1,12 @@
-// filepath: /c:/Users/vikas/OneDrive/Desktop/karma/frontend/karma/src/store/index.js
+// src/store/index.js
 import { createStore } from 'vuex'
 
-function check_auth() {
-  const token = localStorage.getItem('Authentication-Token')
-  if (token) {
-      return true
-  }
-  return false
-}
+import auth from './modules/auth'
+import error from './modules/error'
 
-const store = createStore({
-  state: {
-    isAuthenticated: check_auth(),
-  },
-  mutations: {
-    login(state) {
-      state.isAuthenticated = true      
-    },
-    logout(state) {
-      state.isAuthenticated = false
-    }
-  },
-  actions: {
-    login({ commit }) {
-      commit('login')
-    },
-    logout({ commit }) {
-      commit('logout')
-    }
-  },
-  getters: {
-    isAuthenticated: state => state.isAuthenticated
+export default createStore({
+  modules: {
+    auth,
+    error
   }
 })
-
-export default store

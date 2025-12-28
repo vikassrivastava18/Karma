@@ -1,12 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
-
-
-# If using sqlite and Django < 4.2, import JSONField from django.db.models
-try:
-    from django.db.models import JSONField as BuiltinJSONField
-except Exception:
-    from django.contrib.postgres.fields import JSONField as BuiltinJSONField
+from django.db.models import JSONField as BuiltinJSONField
 
 
 class Note(models.Model):

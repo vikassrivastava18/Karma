@@ -1,8 +1,12 @@
+import logging
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Note, UploadedImage
-from .serializers import NoteSerializer, UploadedImageSerializer
+from .serializers import (NoteSerializer,
+                          UploadedImageSerializer)
+
+logger = logging.getLogger(__name__)
 
 
 class NoteCreateListView(generics.ListCreateAPIView):
@@ -18,9 +22,14 @@ class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ImageUploadView(APIView):
     # Accepts multipart/form-data with a field 'file'
     def post(self, request, format=None):
-        file_obj = request.FILES.get('file')
-        if not file_obj:
-            return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
-        img = UploadedImage.objects.create(file=file_obj)
-        serializer = UploadedImageSerializer(img, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        try:
+            file_obj = request.FILES.get('file')
+            if not file_obj:
+                return Response({'error': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+            img = UploadedImage.objects.create(file=file_obj)
+            serializer = UploadedImageSerializer(img, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            logger.error(f"Error occurred in image upload: {e}")
+            return Response({'error': 'Image upload failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

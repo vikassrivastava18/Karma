@@ -1,10 +1,10 @@
 <template>
     <div>
-        <TodoComponent @showToast="showToastPopup" @errorToast="errorToast" />
+        <TodoComponent @showToast="showToastPopup" />
 
-        <DailyComponent @showToast="showToastPopup" @errorToast="errorToast" />
+        <DailyComponent @showToast="showToastPopup" />
         
-        <ReflectionComponent @showToast="showToastPopup" @errorToast="errorToast" />        
+        <ReflectionComponent @showToast="showToastPopup" />        
     </div>
 </template> 
 
@@ -18,19 +18,16 @@ import DailyComponent from '../components/DailyComponent.vue';
 import TodoComponent from '../components/TodoComponent.vue';
 import ReflectionComponent from '../components/ReflectionComponent.vue';
 import ToastComponent from '../components/ToastComponent.vue';
-import ErrorToastComponent from '../components/ErrorToastComponent.vue';
 
 export default {
     name: 'HomePage',
     computed: {
-        ...mapState(['isAuthenticated']),
     },
     components: {
         DailyComponent,
         TodoComponent,
         ReflectionComponent,
-        ToastComponent,
-        ErrorToastComponent,        
+        ToastComponent,      
     },
     data() {
         return {
@@ -38,7 +35,7 @@ export default {
     },
     mounted() {
         // Check if the user is authenticated
-        if (!this.$store.state.isAuthenticated) {
+        if (!this.$store.state.auth.isAuthenticated) {
             this.$router.push({ path: '/login' });
         }       
     },
@@ -46,12 +43,6 @@ export default {
     methods: {
         showToastPopup() {
             const toastEl = document.getElementById('liveToast')
-            const toast = new Toast(toastEl)
-            toast.show()
-        },
-
-        errorToast() {
-            const toastEl = document.getElementById('liveToastError')
             const toast = new Toast(toastEl)
             toast.show()
         },

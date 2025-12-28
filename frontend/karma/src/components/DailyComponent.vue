@@ -1,7 +1,7 @@
 
 <template>
-    <div class="wrapper">
-        
+    <h2 style="text-align: center;">DAILY</h2>
+    <div class="wrapper">        
         <div v-for="status in statuses" :key="status.id" :id="status.id" class="container fixed-size">
             <h2>
                 {{ status.title }} 
@@ -9,22 +9,22 @@
                 <button type="button" class="btn px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 </button>
             </h2>
-            <div class="cards-wrapper" :key="status.id" @drop="onDrop($event, status.id)" @dragenter.prevent @dragover.prevent>
-                <card v-for="karma of filteredTasks[status.id]" :key="karma.id" :id="karma.id" class="card" draggable="true"
-                    @dragstart="startDrag($event, karma.id)">
+            <div class="cards-wrapper" :key="status.id" 
+                @drop="onDrop($event, status.id)" 
+                @dragenter.prevent @dragover.prevent>
 
+                <card v-for="karma of filteredTasks[status.id]" 
+                    :key="karma.id" :id="karma.id" class="card" draggable="true"
+                    @dragstart="startDrag($event, karma.id)">
                     <span class="">
                         <IconComponent :type="karma.type" />
                         {{ karma.title }}                        
-                    </span>
-                    
+                    </span>                    
                     <span class="content" v-html="karma.karma">
                     </span>
-
                 </card>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -175,13 +175,12 @@ export default {
 }
 
 .wrapper {
-    padding: 30px;
-    /* max-height: 60vh; */
     max-width: 80vw;
     display: flex;
     margin: auto;
     justify-content: center;
     align-items: center;
+    padding-top: 20px;
 }
 
 .fixed-size {

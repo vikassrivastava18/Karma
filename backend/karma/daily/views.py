@@ -1,11 +1,12 @@
-from django.utils import timezone
 from django.utils.timezone import localdate
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import (SessionAuthentication,
+                                           TokenAuthentication)
 
-from .models import DailyKarma, DayReview, Reflection
-from .serializers import DailyKarmaSerializer, ReflectionSerializer
+from .models import DailyKarma, Reflection
+from .serializers import (DailyKarmaSerializer,
+                          ReflectionSerializer)
 # Create your views here.
 
 

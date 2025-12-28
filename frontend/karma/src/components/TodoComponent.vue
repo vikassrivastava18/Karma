@@ -1,5 +1,5 @@
 <template>
-
+    <h2 style="text-align: center;">TODOS</h2>
     <div>
         <div class="wrapper2">
             <div v-for="status in statuses" :key="status.id" :id="status.id" class="container fixed-size">
@@ -15,7 +15,7 @@
 
                     <card v-for="karma of filteredTasks[status.id]" 
                         :key="karma.id" :id="karma.id" 
-                        class="card p-3"
+                        class="card p-2"
                         :class="{ overdue: overdueTaskIds.includes(karma.id) }"
                         draggable="true" 
                         @dragstart="startDrag($event, karma.id)"
@@ -44,8 +44,6 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script>
@@ -209,15 +207,12 @@ export default {
 
 <style scoped>
 .wrapper2 {
-    padding: 30px;
-    padding-top: 45px;
-    /* max-height: 60vh; */
     max-width: 80vw;
     display: flex;
     margin: auto;
     justify-content: center;
     align-items: center;
-    padding-top: 50px;
+    padding-top: 20px;
 }
 
 .container {

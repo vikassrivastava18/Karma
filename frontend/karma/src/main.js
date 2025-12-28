@@ -1,9 +1,9 @@
 
 import { createWebHistory, createRouter } from 'vue-router'
-import store from './store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import axios from 'axios'
+import store from './store'
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -44,7 +44,6 @@ let app = createApp(App)
   .use(store)
 
 app.config.globalProperties.$axios = axios
-
 app.mount('#app')
 
 // Request interceptor
@@ -61,7 +60,9 @@ axios.interceptors.response.use(
   response => response,
   error => {
     // Add more error handling here
-    if (error.response && [400, 401, 403].includes(error.response.status)) {
+    if (error.response && [400, 401].includes(error.response.status)) {
+      console.log("Login failed.");
+      
       window.location.href = '/login'; // Redirect to login
     }
     return Promise.reject(error);
