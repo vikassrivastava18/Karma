@@ -73,7 +73,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { uploadImage, createNote } from '../api'
+import { uploadImage, createNote } from '../../api'
 
 // ...existing code...
 const title = ref('')

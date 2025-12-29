@@ -1,16 +1,16 @@
 <template>
-    <h2 style="text-align: center;">TODOS</h2>
+    <h3 style="text-align: center;">TODOS</h3>
     <div>
         <div class="wrapper2">
             <div v-for="status in statuses" :key="status.id" :id="status.id" class="container fixed-size">
-                <h2>
+                <h4>
                     {{ status.title }}
                     <!-- Button trigger modal -->
                     <button v-if="status.id == 'to'" type="button" class="btn px-2" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
-                        <img src="../assets/create.png" width="20" alt="create list">
+                        <img src="../../../assets/create.png" width="20" alt="create list">
                     </button>
-                </h2>
+                </h4>
                 <div class="cards-wrapper" :key="status.id" @drop="onDrop($event, status.id)" @dragover.prevent>
 
                     <card v-for="karma of filteredTasks[status.id]" 
@@ -48,7 +48,7 @@
 
 <script>
 /* eslint-disable */
-import { baseUrl } from '../config'
+import { baseUrl } from '../../../config'
 import IconComponent from './IconComponent.vue';
 import ModalComponent from './ModalComponent.vue';
 
@@ -135,10 +135,17 @@ export default {
 
             try {
                 await this.$axios.put(url, updatedData);
-                this.$emit('showToast');
+                this.$store.dispatch('success/showSucsess', {
+                    title: 'Update Successful',
+                    message: 'Item updated successfully.'
+                });
             } catch (error) {
-                console.error('Error:', error.message);
-                this.$emit('errorToast');
+                console.log("Error: ", error);
+                
+                this.$store.dispatch('error/showError', {
+                    title: 'Update Failed',
+                    message: 'Item update failed.'
+                });
             }
         },
 
@@ -166,11 +173,16 @@ export default {
                     // Remove the item from the list
                     this.AllTasks = this.AllTasks.filter(karma => karma.id !== id);
                     this.filterItems(); // Update filtered tasks
-                    this.$emit('showToast', 'Item archived successfully!');
+                    this.$store.dispatch('success/showSuccess', {
+                    title: 'Update Successful',
+                    message: 'Item archived successfully.'
+                });
                 }
             } catch (error) {
-                console.error('Error archiving item:', error.message);
-                this.$emit('errorToast', 'Failed to archive item.');
+                this.$store.dispatch('error/showError', {
+                    title: 'Update Failed',
+                    message: 'Item archive failed.'
+                });
             }
         },
 

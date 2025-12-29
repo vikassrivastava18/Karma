@@ -12,7 +12,7 @@
 
 <script>
 import HeaderComponent from './components/HeaderComponent.vue';
-import ToastComponent from './components/ToastComponent.vue';
+import ToastComponent from './components/SuccessToastComponent.vue';
 import ErrorToastComponent from './components/ErrorToastComponent.vue';
 
 export default {
@@ -25,7 +25,6 @@ export default {
         ToastComponent,
         ErrorToastComponent
     }
-
 }
 
 </script>

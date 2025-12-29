@@ -10,14 +10,13 @@
 
 <script>
 /* eslint-disable */
-// import CustomFetch from '@/CustomFetch';
-import { mapState } from 'vuex'
+
 import { Toast } from 'bootstrap'
 
-import DailyComponent from '../components/DailyComponent.vue';
-import TodoComponent from '../components/TodoComponent.vue';
-import ReflectionComponent from '../components/ReflectionComponent.vue';
-import ToastComponent from '../components/ToastComponent.vue';
+import DailyComponent from './components/DailyComponent.vue'
+import TodoComponent from './components/TodoComponent.vue';
+import ReflectionComponent from './components/ReflectionComponent.vue';
+import SuccessToastComponent from '../../components/SuccessToastComponent.vue';
 
 export default {
     name: 'HomePage',
@@ -27,7 +26,7 @@ export default {
         DailyComponent,
         TodoComponent,
         ReflectionComponent,
-        ToastComponent,      
+        SuccessToastComponent,      
     },
     data() {
         return {
@@ -48,8 +47,8 @@ export default {
         },
 
         getImgUrl(pet) {
-            var images = require.context('../assets/', false, /\.png$/)
-            return images('../assets/' + pet + ".svg")
+            var images = require.context('../../assets/', false, /\.png$/)
+            return images('../../assets/' + pet + ".svg")
         },
     }
 }

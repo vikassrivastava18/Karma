@@ -4,7 +4,9 @@
         
         <form @submit.prevent="submitReflection">
             <div class="form-group">
-                <textarea id="reflection" v-model="reflection" class="form-control" required></textarea>
+                <textarea id="reflection" 
+                v-model="reflection" class="form-control"
+                required></textarea>
             </div>
             <button type="submit">Submit</button>
         </form>
@@ -13,7 +15,7 @@
 
 <script>
 /* eslint-disable */
-import { baseUrl } from '../config';
+import { baseUrl } from '../../../config';
 export default {
     name: 'RelectionComponent',
     data() {

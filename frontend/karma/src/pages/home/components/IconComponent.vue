@@ -5,6 +5,7 @@
 </template> 
 
 <script> 
+
 import workIcon from '@/assets/icons/work.svg';
 import studyIcon from '@/assets/icons/study.svg';
 import prayerIcon from '@/assets/icons/prayer.svg';

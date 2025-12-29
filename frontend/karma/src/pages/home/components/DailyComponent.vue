@@ -1,14 +1,16 @@
 
 <template>
-    <h2 style="text-align: center;">DAILY</h2>
+    <h3 style="text-align: center;">DAILY</h3>
     <div class="wrapper">        
-        <div v-for="status in statuses" :key="status.id" :id="status.id" class="container fixed-size">
-            <h2>
+        <div v-for="status in statuses" :key="status.id" :id="status.id" 
+        class="container fixed-size">
+            <h4>
                 {{ status.title }} 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn px-4" data-bs-toggle="modal" 
+                data-bs-target="#exampleModal">
                 </button>
-            </h2>
+            </h4>
             <div class="cards-wrapper" :key="status.id" 
                 @drop="onDrop($event, status.id)" 
                 @dragenter.prevent @dragover.prevent>
@@ -31,7 +33,9 @@
 <script>
 
 import IconComponent from './IconComponent.vue';
-import { baseUrl } from '../config';
+import { baseUrl } from '../../../config';
+
+const TODO_URL = '/daily/todos';
 
 export default {
     name: 'DailyComponent',
@@ -61,7 +65,7 @@ export default {
     methods: {
         async getKarmas() {
             // Modiify for API
-            const url = baseUrl + '/daily/todos'
+            const url = baseUrl + TODO_URL
 
             try {
                 const res = await this.$axios.get(url)
@@ -78,17 +82,22 @@ export default {
         async editKarma(id, list) {            
             // Modify for API
             const karma = this.AllKarmas.find(karma => karma.id == id)
-            const url = baseUrl + '/daily/todos/' + id
+            const url = baseUrl + TODO_URL + '/' + id
             const updatedData = {...karma, "review": list};
             console.log("updated data: ", updatedData);
             
             try {
                 await this.$axios.put(url, updatedData)
-                this.$emit('showToast')
+                this.$store.dispatch('success/showSucsess', {
+                    title: 'Update Successful',
+                    message: 'Item updated successfully.'
+                });
             } catch (error) {
                 console.error('Error:', error.message)
-                this.$emit('errorToast')
-                // handle error (e.g., show an error message)
+                this.$store.dispatch('error/showError', {
+                    title: 'Update Failed',
+                    message: 'Item update failed.'
+                });
             }
 
         },
@@ -122,90 +131,89 @@ export default {
 </script>
 
 <style scoped>
-
-.container {
-    background: #dee8ff;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    max-height: 70vh;
-}
-
-.cards-wrapper {
-    scrollbar-width: thin;
-    padding-inline: 10px;
-    padding-top: 10px;
-    /* max-height: calc(100vh - 100px); */
-    min-width: 328px;
-    border-radius: 10px;
-    overflow-y: scroll;
-    min-height: 100px;
-    flex-grow: 1;
-    transition: 0.3s;
-}
-
-.card-placeable {
-    background: #0000000d;
-}
-
-.card {
-    padding: 10px;
-    /* width: 300px; */
-    margin-bottom: 10px;
-    background: white;
-    border-radius: 10px;
-    overflow-y: hidden;
-    filter: drop-shadow(0 2px 7px #00000040);
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.type {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding-block: 5px;
-    gap: 5px;
-    margin: -10px;
-    margin-bottom: 10px;
-}
-
-.wrapper {
-    max-width: 80vw;
-    display: flex;
-    margin: auto;
-    justify-content: center;
-    align-items: center;
-    padding-top: 20px;
-}
-
-.fixed-size {
-    padding: 20px;
-    width: 800px;
-    /* Set your desired width */
-    height: 500px;
-    /* Set your desired height */
-    overflow: auto;
-    /* Add overflow if content exceeds the fixed size */
-}
-.daily-component {
-    text-align: center;
-    margin: 20px;
-}
-
-#ka {
-        background-color: lightyellow;
+    .container {
+        background: #dee8ff;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        max-height: 70vh;
     }
 
-#sa {
-    background-color: lightgreen;
-}
+    .cards-wrapper {
+        scrollbar-width: thin;
+        padding-inline: 10px;
+        padding-top: 10px;
+        /* max-height: calc(100vh - 100px); */
+        min-width: 328px;
+        border-radius: 10px;
+        overflow-y: scroll;
+        min-height: 100px;
+        flex-grow: 1;
+        transition: 0.3s;
+    }
 
-#us {
-    background-color: #e99292;
-}
+    .card-placeable {
+        background: #0000000d;
+    }
+
+    .card {
+        padding: 10px;
+        /* width: 300px; */
+        margin-bottom: 10px;
+        background: white;
+        border-radius: 10px;
+        overflow-y: hidden;
+        filter: drop-shadow(0 2px 7px #00000040);
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .type {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding-block: 5px;
+        gap: 5px;
+        margin: -10px;
+        margin-bottom: 10px;
+    }
+
+    .wrapper {
+        max-width: 80vw;
+        display: flex;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+    }
+
+    .fixed-size {
+        padding: 20px;
+        width: 800px;
+        /* Set your desired width */
+        height: 500px;
+        /* Set your desired height */
+        overflow: auto;
+        /* Add overflow if content exceeds the fixed size */
+    }
+    .daily-component {
+        text-align: center;
+        margin: 20px;
+    }
+
+    #ka {
+            background-color: lightyellow;
+        }
+
+    #sa {
+        background-color: lightgreen;
+    }
+
+    #us {
+        background-color: #e99292;
+    }
 </style>

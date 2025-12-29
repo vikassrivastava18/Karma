@@ -1,21 +1,29 @@
 <template>
-    <header class="mb-2">
-        <div class="p-1">
+    <header class="mb-2 ps-4">
+        <div class="">
             <div class="d-flex flex-wrap align-items-center 
                 justify-content-center justify-content-lg-start">
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 
                     justify-content-center mb-md-0">
-                    <h2 style="color: crimson;" class="px-4">KARMA</h2>
-                    <li class="nav-item" v-if="isAuthenticated">
-                        <a class="nav-link text-secondary" href="#">Notes</a>
+                    <li class="nav-item" >             
+                        <router-link to="/" class="nav-link">
+                            <h3 class="px-4 text_black">KARMA</h3>
+                        </router-link>
                     </li>
-                    <li class="nav-item" v-if="isAuthenticated">
-                        <a href="/notes" class="nav-link text-secondary">Reports</a>
+                    <li class="nav-item mt-2" v-if="isAuthenticated">
+                        <router-link to="/notes" class="nav-link text_black">
+                            Notes
+                        </router-link>
+                    </li>
+                    <li class="nav-item mt-2" v-if="isAuthenticated">
+                        <router-link to="/" class="nav-link text_black">
+                            Reports
+                        </router-link>
                     </li>
                 </ul>               
 
                 <div class="text-end" v-if="isAuthenticated">
-                    <button type="button" class="btn me-4" @click="logout">Logout</button>
+                    <button type="button" class="btn btn-danger me-4" @click="logout">Logout</button>
                 </div>
                 <div class="text-end" v-else>
                     <button type="button" class="btn me-4" @click="login">Login</button>
@@ -50,9 +58,15 @@ export default {
         float: right;
     }
     header {
-        background-color: rgb(33, 42, 51);
+        background-color: rgb(93, 186, 215);
         width: 100vw;
         margin-top: 0px;
     }
-    button {background-color: #fff;}
+    .text_black {
+        color: black;
+    }
+    .text_white {
+        color: white;
+        font-size: larger;
+    }
 </style>

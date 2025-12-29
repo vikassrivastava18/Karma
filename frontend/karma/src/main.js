@@ -7,11 +7,11 @@ import store from './store'
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import HomePage from './pages/HomPage.vue'
-import LoginPage from './pages/LoginPage.vue'
-import NotesEditorPage from './pages/NotesEditorPage.vue'
-import NotesListPage from './pages/NotesListPage.vue'
-import NoteViewerPage from './pages/NoteViewerPage.vue'
+import HomePage from './pages/home/HomPage.vue'
+import LoginPage from './pages/auth/LoginPage.vue'
+import NotesEditorPage from './pages/notes/NotesEditorPage.vue'
+import NotesListPage from './pages/notes/NotesListPage.vue'
+import NoteViewerPage from './pages/notes/NoteViewerPage.vue'
 
 const routes = [
   { path: '/', component: HomePage, meta: { requiresAuth: true } },
@@ -56,6 +56,7 @@ axios.interceptors.request.use((config) => {
   return config
 })
 
+// Redirect to login page in case of authentication error
 axios.interceptors.response.use(
   response => response,
   error => {

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { baseUrl } from '../config';
+import { baseUrl } from '../../config';
 
 import { mapActions } from 'vuex';
 

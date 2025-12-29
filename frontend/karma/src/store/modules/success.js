@@ -10,26 +10,26 @@ export default {
   },
   mutations: {
     SHOW_SUCCESS(state, payload) {
-      state.SucessToast.show = true
-      state.SucessToast.title = payload.title || 'Sucess'
-      state.SucessToast.message = payload.message
-      state.SucessToast.timestamp = Date.now()
+      state.successToast.show = true
+      state.successToast.title = payload.title || 'Sucess'
+      state.successToast.message = payload.message
+      state.successToast.timestamp = Date.now()
     },
     HIDE_SUCCESS(state) {
-      state.SucessToast.show = false
-      state.SucessToast.message = ''
+      state.successToast.show = false
+      state.successToast.message = ''
     }
   },
   actions: {
-    showSucess({ commit }, payload) {
+    showSucsess({ commit }, payload) {
       commit('SHOW_SUCCESS', payload)
     },
-    hideSucess({ commit }) {
+    hideSuccess({ commit }) {
       commit('HIDE_SUCCESS')
     }
   },
   getters: {
-    SucessToast: (state) => state.errorToast
+    sucessToast: (state) => state.successToast
   }
 }
 
