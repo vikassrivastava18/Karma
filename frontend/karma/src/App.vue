@@ -7,13 +7,16 @@
 
     <ToastComponent />
     
-    <ErrorToastComponent />    
+    <ErrorToastComponent />  
+
+    <ConfirmModalComponent />
 </template>
 
 <script>
 import HeaderComponent from './components/HeaderComponent.vue';
 import ToastComponent from './components/SuccessToastComponent.vue';
 import ErrorToastComponent from './components/ErrorToastComponent.vue';
+import ConfirmModalComponent from './components/ConfirmModalComponent.vue';
 
 export default {
     name: 'App',
@@ -23,7 +26,8 @@ export default {
     components: {
         HeaderComponent,
         ToastComponent,
-        ErrorToastComponent
+        ErrorToastComponent,
+        ConfirmModalComponent
     }
 }
 

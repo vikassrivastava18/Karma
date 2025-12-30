@@ -1,4 +1,3 @@
-// filepath: /c:/Users/vikas/OneDrive/Desktop/karma/frontend/karma/src/store/index.js
 function check_auth() {
   const token = localStorage.getItem('Authentication-Token')
   if (token) {
@@ -18,6 +17,7 @@ export default {
     },
     logout(state) {
       state.isAuthenticated = false
+      localStorage.removeItem('Authentication-Token')
     }
   },
   actions: {

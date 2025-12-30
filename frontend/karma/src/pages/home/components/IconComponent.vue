@@ -5,14 +5,13 @@
 </template> 
 
 <script> 
-
-import workIcon from '@/assets/icons/work.svg';
-import studyIcon from '@/assets/icons/study.svg';
-import prayerIcon from '@/assets/icons/prayer.svg';
-import playIcon from '@/assets/icons/sports.svg';
-import familyIcon from '@/assets/icons/family.svg';
-import publicIcon from '@/assets/icons/people.svg';
-import deletIcon from '@/assets/icons/delete.svg';
+import workIcon from './icons/work.svg';
+import studyIcon from './icons/study.svg';
+import prayerIcon from './icons/prayer.svg';
+import playIcon from './icons/sports.svg';
+import familyIcon from './icons/family.svg';
+import publicIcon from './icons/people.svg';
+import deletIcon from './icons/delete.svg';
 // Import other icons as needed
 
 

@@ -10,23 +10,17 @@
                             <h3 class="px-4 text_black">KARMA</h3>
                         </router-link>
                     </li>
-                    <li class="nav-item mt-2" v-if="isAuthenticated">
-                        <router-link to="/notes" class="nav-link text_black">
+                    <li class="nav-item mt-1" v-if="isAuthenticated">
+                        <router-link to="/notes" class="nav-link text_white">
                             Notes
                         </router-link>
                     </li>
-                    <li class="nav-item mt-2" v-if="isAuthenticated">
-                        <router-link to="/" class="nav-link text_black">
-                            Reports
-                        </router-link>
-                    </li>
-                </ul>               
-
+                </ul>   
                 <div class="text-end" v-if="isAuthenticated">
                     <button type="button" class="btn btn-danger me-4" @click="logout">Logout</button>
                 </div>
                 <div class="text-end" v-else>
-                    <button type="button" class="btn me-4" @click="login">Login</button>
+                    <button type="button" class="btn btn-primary me-4" @click="login">Login</button>
                 </div>
             </div>
         </div>
@@ -42,9 +36,15 @@ export default {
     },
     methods: {
         logout() {
-            localStorage.removeItem('Authentication-Token')
-            this.$store.dispatch('logout')
-            this.$router.push('/login')
+            this.$store.dispatch('confirm/openConfirm', {
+                title: 'Confirm Logout',
+                message: 'Are you sure you want to logout?',
+                confirmText: 'Logout',
+                onConfirm: () => {
+                    this.$store.dispatch('auth/logout')
+                    this.$router.push('/login')
+                }
+            })            
         },
         login() {
             this.$router.push('/login')

@@ -1,9 +1,9 @@
 <template>
-    <div class="note-viewer p-4" v-if="note" >
-        <h1>{{ note.title }}</h1>
+    <div class="note-viewer container" v-if="note" >
+        <h3 style="text-align: center;">{{ note.title }}</h3>
 
         <div v-for="(b, i) in note.blocks" :key="i" class="p-2 m-2">
-            <h2 v-if="b.type === 'heading'" class="p-1">{{ b.content }}</h2>
+            <h4 v-if="b.type === 'heading'" class="p-1">{{ b.content }}</h4>
             <p v-else-if="b.type === 'paragraph'" class="p-1">{{ b.content }}</p>
             <img v-else-if="b.type === 'image'" :src="b.content" class="note-image p-1" />
         </div>
@@ -12,7 +12,6 @@
     <div v-else-if="loading">Loading…</div>
     <div v-else class="error">Note not found</div>
 </template>
-
 
 <script setup>
 /* eslint-disable */
@@ -44,13 +43,13 @@ async function load() {
 
 
 <style scoped>
-.note-image {
-    max-width: 450px;
-    margin: 10px 0;
-    display: block;
-}
+  .note-image {
+      max-width: 450px;
+      margin: 10px 0;
+      display: block;
+  }
 
-.error {
-    color: red;
-}
+  .error {
+      color: red;
+  }
 </style>

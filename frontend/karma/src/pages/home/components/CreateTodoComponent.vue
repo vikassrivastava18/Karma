@@ -44,8 +44,7 @@
 
 <script>
 /* eslint-disable */
-const baseUrl = 'http://localhost:8000';
-// import { Modal } from 'bootstrap';
+import { baseUrl } from '../../../config';
 
 export default {
     data() {
