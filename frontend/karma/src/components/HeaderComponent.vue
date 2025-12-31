@@ -69,4 +69,7 @@ export default {
         color: white;
         font-size: larger;
     }
+    .nav-link {
+        padding: 0.3rem 1rem;
+    }
 </style>

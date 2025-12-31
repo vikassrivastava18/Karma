@@ -2,9 +2,12 @@
     <div class="note-list">
         <h3 style="text-align: center;" class="me-4">Saved Notes
         <router-link
-            class="ms-4"
+            class="ms-2"
             :to="`/create-note`">
-            Create Note
+            <button type="button" 
+                class="btn px-2">
+                <img src="../../assets/create.png" width="20" alt="create list">
+            </button>
         </router-link>
         </h3>
         <div v-if="loading">Loading…</div>

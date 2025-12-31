@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models import JSONField as BuiltinJSONField
 
-
 class Note(models.Model):
     title = models.CharField(max_length=255)
     blocks = BuiltinJSONField(default=list) # list of blocks: {type: 'heading'|'paragraph'|'image', content: '...'}
