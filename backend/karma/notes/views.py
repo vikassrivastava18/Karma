@@ -2,9 +2,9 @@ import logging
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Note, UploadedImage
+from .models import Note, UploadedImage, NoteTopic
 from .serializers import (NoteSerializer,
-                          UploadedImageSerializer)
+                          UploadedImageSerializer, TopicSerializer)
 
 logger = logging.getLogger(__name__)
 
@@ -33,3 +33,8 @@ class ImageUploadView(APIView):
         except Exception as e:
             logger.error(f"Error occurred in image upload: {e}")
             return Response({'error': 'Image upload failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class TopicListView(generics.ListCreateAPIView):
+    queryset = NoteTopic.objects.all()
+    serializer_class = TopicSerializer

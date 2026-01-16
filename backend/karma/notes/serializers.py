@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Note, UploadedImage
+from .models import Note, UploadedImage, NoteTopic
 
 
 class UploadedImageSerializer(serializers.ModelSerializer):
@@ -19,4 +19,10 @@ class UploadedImageSerializer(serializers.ModelSerializer):
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ('id', 'title', 'blocks', 'created_at', 'updated_at')
+        fields = ('id', 'title', 'blocks', 'created_at', 'updated_at', 'topic')
+
+
+class TopicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NoteTopic
+        fields = ('id', 'topic')

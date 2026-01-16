@@ -39,3 +39,12 @@ export function listNotes() {
 
     )
 }
+
+export function listTopics() {
+    const token = localStorage.getItem('Authentication-Token')
+    return api.get('/topics/', {
+        headers: { Authorization: `Token ${token}` }
+    }
+
+    )
+}

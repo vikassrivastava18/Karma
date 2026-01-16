@@ -46,12 +46,12 @@ export default {
         return {
             AllKarmas: [],
             statuses: [
-                {id: 'ka', 'title': 'DAILY'},
+                {id: 'pe', 'title': 'DAILY'},
                 {id: 'sa', 'title': 'SATISFIED'},
                 {id: 'us', 'title': 'UNSATISFIED'}
             ],
             filteredTasks: {
-                ka: [],
+                pe: [],
                 sa: [],
                 us: []
             }            
@@ -103,7 +103,7 @@ export default {
         },
 
         filterItems() {
-            this.filteredTasks.ka = this.AllKarmas.filter(karma => karma.review === 'pe')
+            this.filteredTasks.pe = this.AllKarmas.filter(karma => karma.review === 'pe')
             this.filteredTasks.sa = this.AllKarmas.filter(karma => karma.review === 'sa')
             this.filteredTasks.us = this.AllKarmas.filter(karma => karma.review === 'us')
 
@@ -205,7 +205,7 @@ export default {
         margin: 20px;
     }
 
-    #ka {
+    #pe {
             background-color: lightyellow;
         }
 

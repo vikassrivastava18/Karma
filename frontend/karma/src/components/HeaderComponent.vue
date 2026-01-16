@@ -1,5 +1,5 @@
 <template>
-    <header class="mb-2 ps-4">
+    <header class="mb-2 ps-4 py-1">
         <div class="">
             <div class="d-flex flex-wrap align-items-center 
                 justify-content-center justify-content-lg-start">
@@ -19,9 +19,9 @@
                 <div class="text-end" v-if="isAuthenticated">
                     <button type="button" class="btn btn-danger me-4" @click="logout">Logout</button>
                 </div>
-                <div class="text-end" v-else>
+                <!-- <div class="text-end" v-else>
                     <button type="button" class="btn btn-primary me-4" @click="login">Login</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </header>

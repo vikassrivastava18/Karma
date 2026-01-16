@@ -61,7 +61,7 @@ axios.interceptors.response.use(
   response => response,
   error => {
     // Add more error handling here
-    if (error.response && [400, 401].includes(error.response.status)) {
+    if (error.response && [401, 403].includes(error.response.status)) {
       console.log("Login failed.");
       
       window.location.href = '/login'; // Redirect to login

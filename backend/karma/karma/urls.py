@@ -13,6 +13,7 @@
         1. Import the include() function: from django.urls import include, path
         2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
@@ -23,7 +24,13 @@ urlpatterns = [
     path('auth/', include('auths.urls')),
     path('daily/', include('daily.urls')),
     path('todo/', include('todo.urls')),
-    path('notes/', include('notes.urls'))
+    path('notes/', include('notes.urls')),
+    # Schema Generation
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Swagger UI
+    path('api/docs/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # ReDoc UI
+    path('api/docs/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc')
 ]
 
 if settings.DEBUG:

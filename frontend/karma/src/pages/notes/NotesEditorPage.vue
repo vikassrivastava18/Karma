@@ -4,6 +4,11 @@
     <div class="editor-column">
       <h2>Create a new note</h2>
 
+      <label class="field-label">Select Topic</label>
+      <select v-model="selectedTopic" class="type-select">
+        <option v-for="(topic, idx) in topics" :value="topic.id"
+                :key="idx">{{ topic.topic }}</option>
+      </select>
       <label class="field-label">Title</label>
       <input class="input title-input" v-model="title" placeholder="Note title" />
 
@@ -59,6 +64,7 @@
 
     <div class="preview-column">
       <h3>Preview</h3>
+
       <div class="preview">
         <h1 class="preview-title">{{ title || 'Untitled' }}</h1>
         <div v-for="(b, i) in blocks" :key="i" class="preview-block">
@@ -72,15 +78,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { uploadImage, createNote } from '../../api'
+import { onMounted, ref } from 'vue'
+import { uploadImage, createNote, listTopics} from '../../api'
 
 // ...existing code...
 const title = ref('')
+const topics = ref([])
+const selectedTopic = ref('')
 const blocks = ref([])
 const saving = ref(false)
 const saveError = ref('')
 const saved = ref(false)
+const error = ref('')
+
+onMounted(loadTopics)
+async function loadTopics() {
+  try {
+    const res = await listTopics()
+    topics.value = res.data
+  } catch (e) {
+      error.value = 'Failed to load notes';
+  }
+}
+
 
 function addBlock(type = 'paragraph') {
   blocks.value.push({ type, content: '' })
@@ -114,6 +134,7 @@ async function saveNote() {
     const payload = {
       title: title.value,
       blocks: blocks.value,
+      topic: selectedTopic.value
     }
     await createNote(payload)
     saved.value = true
