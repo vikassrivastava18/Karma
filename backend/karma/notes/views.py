@@ -2,6 +2,9 @@ import logging
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import (SessionAuthentication,
+                                           TokenAuthentication)
 from .models import Note, UploadedImage, NoteTopic
 from .serializers import (NoteSerializer,
                           UploadedImageSerializer, TopicSerializer)
@@ -10,16 +13,22 @@ logger = logging.getLogger(__name__)
 
 
 class NoteCreateListView(generics.ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Note.objects.all().order_by('-updated_at')
     serializer_class = NoteSerializer
 
 
 class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
 
 class ImageUploadView(APIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     # Accepts multipart/form-data with a field 'file'
     def post(self, request, format=None):
         try:
@@ -36,5 +45,7 @@ class ImageUploadView(APIView):
 
 
 class TopicListView(generics.ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = NoteTopic.objects.all()
     serializer_class = TopicSerializer
