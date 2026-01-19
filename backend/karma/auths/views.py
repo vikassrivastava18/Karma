@@ -1,3 +1,3 @@
-from django.shortcuts import render
+# Using Django-Rest-Framework built in authentication.
 
 # Create your views here.

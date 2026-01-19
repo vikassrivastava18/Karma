@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'drf_spectacular',
+    'django_celery_beat',
+    'django_celery_results',
     'rest_framework.authtoken',
     'auths',
     'daily',
@@ -105,15 +107,6 @@ WSGI_APPLICATION = 'karma.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -178,14 +171,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRONJOBS = [
-    ('0 10-21 * * *', 'api.twilio.my_hourly_status', '>> ' + os.path.join(BASE_DIR,'log/debug7.log' + ' 2>&1 ')),
-    ('30 11 * * *', 'api.twilio.my_daily_update', '>> ' + os.path.join(BASE_DIR,'log/debug7.log' + ' 2>&1 ')),
-    ('0 9 * * *', 'api.twilio.my_todays_todos', '>> ' + os.path.join(BASE_DIR,'log/debug7.log' + ' 2>&1 ')),
-    ('37 17 * * *', 'api.twilio.my_hourly_status', '>> ' + os.path.join(BASE_DIR,'log/debug7.log' + ' 2>&1 ')),
-]
 
-CELERY_BROKER_URL = "redis://:hellYeah@2023@localhost:6379/0"
+# Celery settings
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0' # Or your broker URL
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_TIMEZONE = 'UTC' # Set your appropriate timezone
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

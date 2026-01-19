@@ -7,10 +7,10 @@ from rest_framework.authentication import (SessionAuthentication,
                                            TokenAuthentication)
 from .models import Note, UploadedImage, NoteTopic
 from .serializers import (NoteSerializer,
-                          UploadedImageSerializer, TopicSerializer)
+                          UploadedImageSerializer,
+                          TopicSerializer)
 
 logger = logging.getLogger(__name__)
-
 
 class NoteCreateListView(generics.ListCreateAPIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]

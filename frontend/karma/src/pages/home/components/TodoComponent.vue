@@ -183,7 +183,6 @@ export default {
                     this.archiveKarma(itemId)
                 }
             })
-
         },
 
         async archiveKarma(id) {
@@ -352,7 +351,6 @@ export default {
         background-color: lightgreen;
     }
 
-
     .todo-details-modal {
         position: fixed;
         top: 50%;
@@ -389,8 +387,6 @@ export default {
         font-size: 1.5rem;
         /* Larger heading */
         color: #333;
-        /* Darker text color */
-        border-bottom: 2px solid #007bff;
         /* Add a subtle underline */
         padding-bottom: 10px;
     }

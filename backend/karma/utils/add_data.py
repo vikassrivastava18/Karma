@@ -1,4 +1,3 @@
-
 from datetime import timedelta, timezone
 from django.utils import timezone
 from daily.models import *

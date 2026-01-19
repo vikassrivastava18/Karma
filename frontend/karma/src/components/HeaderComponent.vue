@@ -19,9 +19,6 @@
                 <div class="text-end" v-if="isAuthenticated">
                     <button type="button" class="btn btn-danger me-4" @click="logout">Logout</button>
                 </div>
-                <!-- <div class="text-end" v-else>
-                    <button type="button" class="btn btn-primary me-4" @click="login">Login</button>
-                </div> -->
             </div>
         </div>
     </header>
@@ -71,5 +68,7 @@ export default {
     }
     .nav-link {
         padding: 0.3rem 1rem;
+        font-size: x-large;
+        line-height: 1.2;
     }
 </style>
