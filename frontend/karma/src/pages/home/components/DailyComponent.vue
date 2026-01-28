@@ -1,6 +1,6 @@
 
 <template>
-    <h3 style="text-align: center;">DAILY</h3>
+    <h3 style="text-align: center; color: crimson;">DAILY</h3>
     <div class="wrapper">        
         <div v-for="status in statuses" :key="status.id" :id="status.id" 
         class="container fixed-size">
@@ -30,104 +30,94 @@
     </div>
 </template>
 
-<script>
+<script setup>
 
+import { reactive, ref, onMounted, getCurrentInstance } from 'vue';
 import IconComponent from './IconComponent.vue';
 import { baseUrl } from '../../../config';
 
-const TODO_URL = '/daily/todos';
+const instance = getCurrentInstance()
+const proxy = instance && instance.proxy
 
-export default {
-    name: 'DailyComponent',
-    components: {
-        IconComponent
-    },
-    data() {
-        return {
-            AllKarmas: [],
-            statuses: [
-                {id: 'pe', 'title': 'DAILY'},
+const TODO_URL = '/daily/todos';
+const AllKarmas = ref([]);
+const statuses = reactive([{id: 'pe', 'title': 'DAILY'},
                 {id: 'sa', 'title': 'SATISFIED'},
-                {id: 'us', 'title': 'UNSATISFIED'}
-            ],
-            filteredTasks: {
+                {id: 'us', 'title': 'UNSATISFIED'}]);
+
+const filteredTasks = reactive({
                 pe: [],
                 sa: [],
                 us: []
-            }            
-        };
-    },
+            });
 
-    mounted() {
-        this.getKarmas()
-    },
+
+onMounted(() => getKarmas());
     
-    methods: {
-        async getKarmas() {
-            // Modiify for API
-            const url = baseUrl + TODO_URL
+    
+async function getKarmas() {
+    // Modiify for API
+    const url = baseUrl + TODO_URL
 
-            try {
-                const res = await this.$axios.get(url)
-                this.AllKarmas = res.data
-                console.log("All Karmas: ", this.AllKarmas);
-                
-                this.filterItems()
-            } catch (error) {
-                console.error('Error:', error.message)
-                // handle error (e.g., show an error message)
-            }
-        },
-
-        async editKarma(id, list) {            
-            // Modify for API
-            const karma = this.AllKarmas.find(karma => karma.id == id)
-            const url = baseUrl + TODO_URL + '/' + id
-            const updatedData = {...karma, "review": list};
-            console.log("updated data: ", updatedData);
-            
-            try {
-                await this.$axios.put(url, updatedData)
-                this.$store.dispatch('success/showSucsess', {
-                    title: 'Update Successful',
-                    message: 'Item updated successfully.'
-                });
-            } catch (error) {
-                console.error('Error:', error.message)
-                this.$store.dispatch('error/showError', {
-                    title: 'Update Failed',
-                    message: 'Item update failed.'
-                });
-            }
-
-        },
-
-        filterItems() {
-            this.filteredTasks.pe = this.AllKarmas.filter(karma => karma.review === 'pe')
-            this.filteredTasks.sa = this.AllKarmas.filter(karma => karma.review === 'sa')
-            this.filteredTasks.us = this.AllKarmas.filter(karma => karma.review === 'us')
-
-            this.AllKarmas.forEach(karma => {
-                karma.src = karma.type
-            })
-        },
-
-        startDrag(event, id) {
-            event.dataTransfer.dropEffect = 'move'
-            event.dataTransfer.effectAllowed = 'move'
-            event.dataTransfer.setData('itemID', id)
-            console.log("card_id", id)
-        },
-
-        onDrop(event, list) {
-            const itemID = event.dataTransfer.getData('itemID')
-            const item = this.AllKarmas.find((karma) => karma.id == itemID)
-            item.review = list
-            this.filterItems()
-            this.editKarma(itemID, list)            
-        },        
+    try {
+        const res = await proxy.$axios.get(url)
+        AllKarmas.value = res.data
+        
+        filterItems()
+    } catch (error) {
+        console.error('Error:', error.message)
+        // handle error (e.g., show an error message)
     }
-};
+}
+
+async function editKarma(id, list) {            
+    // Modify for API
+    const karma = AllKarmas.value.find(karma => karma.id == id)
+    const url = baseUrl + TODO_URL + '/' + id
+    const updatedData = {...karma, "review": list};
+    
+    try {
+        await proxy.$axios.put(url, updatedData)
+        proxy.$store.dispatch('success/showSucsess', {
+            title: 'Update Successful',
+            message: 'Item updated successfully.'
+        });
+    } catch (error) {
+        console.error('Error:', error.message)
+        proxy.$store.dispatch('error/showError', {
+            title: 'Update Failed',
+            message: 'Item update failed.'
+        });
+    }
+
+}
+
+function filterItems() {
+    filteredTasks.pe = AllKarmas.value.filter(karma => karma.review === 'pe')
+    filteredTasks.sa = AllKarmas.value.filter(karma => karma.review === 'sa')
+    filteredTasks.us = AllKarmas.value.filter(karma => karma.review === 'us')
+
+    AllKarmas.value.forEach(karma => {
+        karma.src = karma.type
+    })
+}
+
+function startDrag(event, id) {
+    event.dataTransfer.dropEffect = 'move'
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('itemID', id)
+    console.log("card_id", id)
+}
+
+function onDrop(event, list) {
+    const itemID = event.dataTransfer.getData('itemID')
+    const item = AllKarmas.value.find((karma) => karma.id == itemID)
+    item.review = list
+    filterItems()
+    editKarma(itemID, list)            
+}     
+    
+
 </script>
 
 <style scoped>

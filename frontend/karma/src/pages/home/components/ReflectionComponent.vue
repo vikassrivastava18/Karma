@@ -1,5 +1,5 @@
 <template>
-    <h2 style="text-align: center;">Daily Reflection</h2>
+    <h2 style="text-align: center; color: crimson;">Daily Reflection</h2>
     <div class="reflection-component card shadow-sm mb-4">
         
         <form @submit.prevent="submitReflection">
@@ -13,33 +13,36 @@
     </div>
 </template>
 
-<script>
-/* eslint-disable */
+<script setup>
+import {ref, getCurrentInstance} from 'vue';
 import { baseUrl } from '../../../config';
-export default {
-    name: 'RelectionComponent',
-    data() {
-        return {
-            reflection: ''
-        };
-    },
-    methods: {
-        async submitReflection() {
-            // Make API call to submit the reflection
-            try {
-                const url = baseUrl + '/daily/reflections'
-                const reflection = { reflection: this.reflection }
-                await this.$axios.post(url, reflection)
-                
-                this.$emit('showToast')
-                this.reflection = '';
-            } catch (error) {
-                this.$emit('errorToast')
-                this.$emit('errorToast')
-            }
-        }
+
+const instance = getCurrentInstance()
+const proxy = instance && instance.proxy
+
+
+let reflection = ref('')
+
+
+async function submitReflection() {
+    // Make API call to submit the reflection
+    try {
+        const url = baseUrl + '/daily/reflections'
+        // const re = { reflection: reflection }
+        await proxy.$axios.post(url,  { "reflection": reflection.value })
+        proxy.$store.dispatch('success/showSuccess', {
+                title: 'Reflection added for the day.',
+                message: 'Reflection added successfully.'
+            })
+        reflection.value = '';
+    } catch (error) {
+        proxy.$store.dispatch('error/showError', {
+            title: 'Reflection save Failed',
+            message: 'Item save failed.'
+        })
     }
-};
+}
+
 </script>
 
 <style scoped>

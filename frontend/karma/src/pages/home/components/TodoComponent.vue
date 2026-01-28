@@ -1,5 +1,5 @@
 <template>
-    <h3 style="text-align: center;">TODOS</h3>
+    <h3>TODOS</h3>
     <div>
         <div class="wrapper2">
             <div v-for="status in statuses" 
@@ -55,189 +55,154 @@
     </div>
 </template>
 
-<script>
-/* eslint-disable */
+<script setup>
+import { ref, reactive, computed, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 import { baseUrl } from '../../../config'
-import IconComponent from './IconComponent.vue';
-import ModalComponent from './CreateTodoComponent.vue';
+import IconComponent from './IconComponent.vue'
+import ModalComponent from './CreateTodoComponent.vue'
 
+const instance = getCurrentInstance()
+const proxy = instance && instance.proxy
 
-export default {
-    name: 'TodoComponent',
-    components: {
-        IconComponent,
-        ModalComponent
-    },
-    data() {
-        return {
-            AllTasks: [],
-            mapper: {"status": {"to": "TODO", "pr": "IN-PROGRESS", "co": "COMPLETED"},
-                     "type": {"pr": "Prayer", "st": "Study", "wo": "Work", 
-                     "ho": "Family", "pu": "Public", "pl": "Play"}},
-            statuses: [
-                { id: 'to', title: 'TODO' },
-                { id: 'pr', title: 'IN-PROGRESS' },
-                { id: 'co', title: 'COMPLETED' }
-            ],
-            filteredTasks: {
-                to: [],
-                pr: [],
-                co: []
-            },
-            ar: "ar",
-            showDetails: false,
-            selectedTodo: null,
-            archive: false
-        };
-    },
+const AllTasks = ref([])
+const mapper = {
+    status: { to: 'TODO', pr: 'IN-PROGRESS', co: 'COMPLETED' },
+    type: { pr: 'Prayer', st: 'Study', wo: 'Work', ho: 'Family', pu: 'Public', pl: 'Play' }
+}
+const statuses = [
+    { id: 'to', title: 'TODO' },
+    { id: 'pr', title: 'IN-PROGRESS' },
+    { id: 'co', title: 'COMPLETED' }
+]
+const filteredTasks = reactive({ to: [], pr: [], co: [] })
+const ar = ref('ar')
+const showDetails = ref(false)
+const selectedTodo = ref(null)
+const archive = ref(false)
 
-    computed: {
-        overdueTaskIds() {
-            const now = new Date();
-            return this.AllTasks
-                .filter(karma => karma.deadline && karma.status !== 'co' && new Date(karma.deadline) < now)
-                .map(karma => karma.id);
-        }
-    },
+const overdueTaskIds = computed(() => {
+    const now = new Date()
+    return AllTasks.value
+        .filter(karma => karma.deadline && karma.status !== 'co' && new Date(karma.deadline) < now)
+        .map(karma => karma.id)
+})
 
-    mounted() {
-        // Get the items from backend
-        this.getTodos();
-        document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    },
-    methods: {
-        truncate(text, length) {
-            if (!text) return '';
-            return text.length > length ? text.substring(0, length) + '...' : text;
-        },
-        async getTodos() {
-            const url = baseUrl + '/todo/todos';
+// function truncate(text, length) {
+//     if (!text) return ''
+//     return text.length > length ? text.substring(0, length) + '...' : text
+// }
 
-            try {
-                const res = await this.$axios.get(url);
-                const data = res.data;
-                this.AllTasks = data;
-                this.filterItems();
-            } catch (error) {
-                console.error('Error:', error.message);
-                // handle error (e.g., show an error message)
-            }
-        },
-
-        filterItems() {
-            this.filteredTasks.to = this.AllTasks.filter(karma => karma.status === 'to');
-            this.filteredTasks.pr = this.AllTasks.filter(karma => karma.status === 'pr');
-            this.filteredTasks.co = this.AllTasks.filter(karma => karma.status === 'co');
-        },
-
-        openDetails(todo) {
-            this.selectedTodo = todo;
-            this.showDetails = true;
-        },
-
-        closeDetails() {
-            this.selectedTodo = null;
-            this.showDetails = false;
-        },
-
-        async editKarma(id, list) {
-            const karma = this.AllTasks.find(karma => karma.id == id);
-            const url = baseUrl + '/todo/todos/' + id;
-            const updatedData = { ...karma, "review": list };
-
-            try {
-                await this.$axios.put(url, updatedData);
-                this.$store.dispatch('success/showSucsess', {
-                    title: 'Update Successful',
-                    message: 'Item updated successfully.'
-                });
-            } catch (error) {
-                console.log("Error: ", error);
-                
-                this.$store.dispatch('error/showError', {
-                    title: 'Update Failed',
-                    message: 'Item update failed.'
-                });
-            }
-        },
-
-        openDetails(id) {
-            const selectedTodo = this.AllTasks.find(karma => karma.id === id);
-            if (selectedTodo) {
-                this.showDetails = true;
-                this.selectedTodo = selectedTodo; // Store the selected todo item
-            }
-        },
-
-        closeDetails() {
-            this.showDetails = false;
-            this.selectedTodo = null; // Clear the selected todo item
-        },
-
-        confirmKarmaArchive(itemId) {
-            this.$store.dispatch('confirm/openConfirm', {
-                title: 'Delete Item',
-                message: 'This action cannot be undone. Continue?',
-                confirmText: 'Delete',
-                onConfirm: () => {
-                    this.archiveKarma(itemId)
-                }
-            })
-        },
-
-        async archiveKarma(id) {
-            const karma = this.AllTasks.find(karma => karma.id === id);
-            const url = `${baseUrl}/todo/todos/${id}`;
-            const updatedData = { ...karma, status: 'ar' }; // Update status to 'ar'
-
-            try {
-                const res = await this.$axios.put(url, updatedData);
-                if (res.status === 200) {
-                    // Remove the item from the list
-                    this.AllTasks = this.AllTasks.filter(karma => karma.id !== id);
-                    this.filterItems(); // Update filtered tasks
-                    this.$store.dispatch('success/showSuccess', {
-                        title: 'Update Successful',
-                        message: 'Item archived successfully.'
-                    });
-                }
-            } catch (error) {
-                this.$store.dispatch('error/showError', {
-                    title: 'Update Failed',
-                    message: 'Item archive failed.'
-                });
-            }
-        },
-
-        startDrag(event, id) {
-            event.dataTransfer.dropEffect = 'move';
-            event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('itemID', id);
-        },
-
-        onDrop(event, list) {
-            const itemID = event.dataTransfer.getData('itemID');
-            const item = this.AllTasks.find(karma => karma.id == itemID);
-            item.status = list;
-            this.filterItems();
-            this.editKarma(itemID, list);
-        },
-
-        handleVisibilityChange() {
-            if (document.visibilityState === 'visible') {
-                console.log("Tab changed to Karma Page");
-                
-                // Force Vue to re-evaluate computed properties
-                // This will trigger reactivity for overdueTaskIds
-                this.AllTasks = [...this.AllTasks];
-            }
-        },
-    },
-
-    beforeDestroy() {
-        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+async function getTodos() {
+    const url = baseUrl + '/todo/todos'
+    try {
+        const res = await proxy.$axios.get(url)
+        AllTasks.value = res.data
+        filterItems()
+    } catch (error) {
+        console.error('Error:', error.message)
     }
-};
+}
+
+function filterItems() {
+    filteredTasks.to = AllTasks.value.filter(karma => karma.status === 'to')
+    filteredTasks.pr = AllTasks.value.filter(karma => karma.status === 'pr')
+    filteredTasks.co = AllTasks.value.filter(karma => karma.status === 'co')
+}
+
+function openDetails(id) {
+    const sel = AllTasks.value.find(karma => karma.id === id)
+    if (sel) {
+        selectedTodo.value = sel
+        showDetails.value = true
+    }
+}
+
+function closeDetails() {
+    selectedTodo.value = null
+    showDetails.value = false
+}
+
+async function editKarma(id, list) {
+    const karma = AllTasks.value.find(k => k.id == id)
+    const url = baseUrl + '/todo/todos/' + id
+    const updatedData = { ...karma, review: list }
+    try {
+        await proxy.$axios.put(url, updatedData)
+        proxy.$store.dispatch('success/showSucsess', {
+            title: 'Update Successful',
+            message: 'Item updated successfully.'
+        })
+    } catch (error) {
+        console.log('Error: ', error)
+        proxy.$store.dispatch('error/showError', {
+            title: 'Update Failed',
+            message: 'Item update failed.'
+        })
+    }
+}
+
+function confirmKarmaArchive(itemId) {
+    proxy.$store.dispatch('confirm/openConfirm', {
+        title: 'Delete Item',
+        message: 'This action cannot be undone. Continue?',
+        confirmText: 'Delete',
+        onConfirm: () => {
+            archiveKarma(itemId)
+        }
+    })
+}
+
+async function archiveKarma(id) {
+    const karma = AllTasks.value.find(k => k.id === id)
+    const url = `${baseUrl}/todo/todos/${id}`
+    const updatedData = { ...karma, status: 'ar' }
+    try {
+        const res = await proxy.$axios.put(url, updatedData)
+        if (res.status === 200) {
+            AllTasks.value = AllTasks.value.filter(k => k.id !== id)
+            filterItems()
+            proxy.$store.dispatch('success/showSuccess', {
+                title: 'Update Successful',
+                message: 'Item archived successfully.'
+            })
+        }
+    } catch (error) {
+        proxy.$store.dispatch('error/showError', {
+            title: 'Update Failed',
+            message: 'Item archive failed.'
+        })
+    }
+}
+
+function startDrag(event, id) {
+    event.dataTransfer.dropEffect = 'move'
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('itemID', String(id))
+}
+
+function onDrop(event, list) {
+    const itemID = event.dataTransfer.getData('itemID')
+    const item = AllTasks.value.find(karma => karma.id == itemID)
+    if (!item) return
+    item.status = list
+    filterItems()
+    editKarma(itemID, list)
+}
+
+function handleVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+        AllTasks.value = [...AllTasks.value]
+    }
+}
+
+onMounted(() => {
+    getTodos()
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange)
+})
 </script>
 
 <style scoped>
@@ -382,6 +347,11 @@ export default {
         padding: 10px;
     }
 
+    h3 {
+        text-align: center;
+        color: crimson;
+    }
+
     .modal-content h3 {
         margin-bottom: 20px;
         font-size: 1.5rem;
@@ -390,6 +360,7 @@ export default {
         /* Add a subtle underline */
         padding-bottom: 10px;
     }
+
 
     .modal-content p {
         margin-bottom: 10px;
