@@ -33,7 +33,7 @@
 <script setup>
 
 import { reactive, ref, onMounted, getCurrentInstance } from 'vue';
-import IconComponent from './IconComponent.vue';
+import IconComponent from '../../home/components/IconComponent.vue';
 import { baseUrl } from '../../../config';
 
 const instance = getCurrentInstance()

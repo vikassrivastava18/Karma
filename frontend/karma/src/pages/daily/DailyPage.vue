@@ -1,19 +1,16 @@
 <template>
-    <div>
-        <TodoComponent @showToast="showToastPopup" />
+    <DailyComponent @showToast="showToastPopup" />
+        
+    <ReflectionComponent @showToast="showToastPopup" />    
+</template>
 
-            
-    </div>
-</template> 
-
-<script setup>
-/* eslint-disable */
-
+<script setup> 
 import { Toast } from 'bootstrap'
-import TodoComponent from './components/TodoComponent.vue';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import DailyComponent from './components/DailyComponent.vue'
+import ReflectionComponent from './components/ReflectionComponent.vue';
 
 const store = useStore()
 const router = useRouter()
@@ -33,15 +30,6 @@ async function showToastPopup() {
         toast.show()
     }
 
-async function getImgUrl(pet) {
-        var images = require.context('../../assets/', false, /\.png$/)
-        return images('../../assets/' + pet + ".svg")
-    }
+
 
 </script>
-
-<style scoped>    
-    .btn {
-        float: right;
-    }
-</style>

@@ -3,7 +3,7 @@
         <h3 class="me-4">Saved Notes
         <router-link
             class="ms-2"
-            :to="`/create-note`">
+            :to="`/notes/create-note`">
             <button type="button" 
                 class="btn px-2">
                 <img src="../../assets/create.png" width="20" alt="create list">

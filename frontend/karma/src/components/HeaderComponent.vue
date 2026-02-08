@@ -16,7 +16,7 @@
                         </router-link>
                     </li>
                     <li class="nav-item mt-1" v-if="isAuthenticated">
-                        <router-link to="/notes" class="nav-link text_white">
+                        <router-link to="/daily" class="nav-link text_white">
                             Daily
                         </router-link>
                     </li>

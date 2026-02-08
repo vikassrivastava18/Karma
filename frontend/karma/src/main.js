@@ -1,44 +1,11 @@
-
-import { createWebHistory, createRouter } from 'vue-router'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import axios from 'axios'
 import store from './store'
-
 import { createApp } from 'vue'
+import router from './router'
 import App from './App.vue'
-import HomePage from './pages/home/HomPage.vue'
-import LoginPage from './pages/auth/LoginPage.vue'
-import NotesEditorPage from './pages/notes/NotesEditorPage.vue'
-import NotesListPage from './pages/notes/NotesListPage.vue'
-import NoteViewerPage from './pages/notes/NoteViewerPage.vue'
 
-
-const routes = [
-  { path: '/', component: HomePage, meta: { requiresAuth: true } },
-  { path: '/login', component: LoginPage },
-  { path: '/create-note', component: NotesEditorPage, meta: { requiresAuth: true } },
-  { path: '/notes', component: NotesListPage, meta: { requiresAuth: true } },
-  { path: '/notes/:noteId', component: NoteViewerPage, meta: { requiresAuth: true } }
-]
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('Authentication-Token');
-    if (token) {
-      next(); // User is authenticated, allow access
-    } else {
-      next('/login'); // Redirect to login page if not authenticated
-    }
-  } else {
-    next(); // No authentication required, allow access
-  }
-});
 
 let app = createApp(App)
   .use(router)
@@ -64,7 +31,7 @@ axios.interceptors.response.use(
     // Add more error handling here
     if (error.response && [401, 403].includes(error.response.status)) {
       console.log("Login failed.");
-      
+
       router.push('/login'); // Redirect to login using router
     }
     return Promise.reject(error);
