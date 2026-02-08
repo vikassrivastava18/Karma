@@ -39,7 +39,7 @@ import { baseUrl } from '../../../config';
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
 
-const TODO_URL = '/daily/todos';
+const TODO_URL = '/daily';
 const AllKarmas = ref([]);
 const statuses = reactive([{id: 'pe', 'title': 'DAILY'},
                 {id: 'sa', 'title': 'SATISFIED'},

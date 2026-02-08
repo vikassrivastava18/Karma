@@ -1,7 +1,7 @@
 <template>
-    <h3>TODOS</h3>
+    
     <div>
-        <div class="wrapper2">
+        <div class="wrapper2 mt-4">
             <div v-for="status in statuses" 
                 :key="status.id" :id="status.id" 
                 class="container fixed-size">
