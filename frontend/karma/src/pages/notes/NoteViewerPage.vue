@@ -1,6 +1,6 @@
 <template>
     <div class="note-viewer container" v-if="note" >
-        <h3 style="text-align: center;">{{ note.title }}</h3>
+        <h3>  {{ note.title }}</h3>
 
         <div v-for="(b, i) in note.blocks" :key="i" class="p-2 m-2">
             <h4 v-if="b.type === 'heading'" class="p-1">{{ b.content }}</h4>
@@ -9,7 +9,6 @@
         </div>
     </div>
 
-    <div v-else-if="loading">Loading…</div>
     <div v-else class="error">Note not found</div>
 </template>
 
@@ -22,11 +21,10 @@ import { api } from '../../api'
 const route = useRoute()
 const noteId = Number(route.params.noteId) // parse to number
 const note = ref(null)
-const loading = ref(false)
 
 onMounted(load)
 async function load() {
-  loading.value = true
+
   try {
     const token = localStorage.getItem('Authentication-Token')
     const res = await api.get(`/notes/${noteId}/`, {
@@ -35,14 +33,15 @@ async function load() {
     note.value = res.data
   } catch (e) {
     note.value = null
-  } finally {
-    loading.value = false
-  }
-}
+  }} 
 </script>
 
 
 <style scoped>
+  .note-viewer > h3 {
+    text-align: center;
+    color: crimson;
+  }
   .note-image {
       max-width: 450px;
       margin: 10px 0;

@@ -21,10 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('auths.urls')),
-    path('daily/', include('daily.urls')),
-    path('todo/', include('todo.urls')),
-    path('notes/', include('notes.urls')),
+    path('api/auth/', include('auths.urls')),
+    path('api/daily/', include('daily.urls')),
+    path('api/todo/', include('todo.urls')),
+    path('api/notes/', include('notes.urls')),
     # Schema Generation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Swagger UI

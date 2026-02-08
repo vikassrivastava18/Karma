@@ -1,6 +1,6 @@
 <template>
     <div class="note-list">
-        <h3 style="text-align: center;" class="me-4">Saved Notes
+        <h3 class="me-4">Saved Notes
         <router-link
             class="ms-2"
             :to="`/create-note`">
@@ -10,10 +10,16 @@
             </button>
         </router-link>
         </h3>
-        <div v-if="loading">Loading…</div>
+        <div class="container mb-2">
+            <button v-for="topic in topics" 
+            class="btn btn-primary mx-3" :key="topic.id"
+            @click="getTopicNotes(topic.id)">
+            {{ topic.topic }}</button>
+        </div>
+
         <div v-if="error" class="error">{{ error }}</div>
 
-        <div v-for="note in notes" :key="note.id" class="note-item">
+        <div v-for="note in notes" :key="note.id" class="note-item p-2">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                     <!-- Repeat this column for each note -->
@@ -23,8 +29,7 @@
                         <h5 class="card-title">
                             <router-link
                                 :key="note.id"
-                                :to="`/notes/${note.id}`"
-                                
+                                :to="`/notes/${note.id}`"                                
                                 >
                                 <h3>{{ note.title }}</h3>
                             </router-link>
@@ -43,23 +48,33 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { listNotes } from '../../api'
+import { listNotes, listTopics, listTopicNotes } from '../../api'
 
 const notes = ref([])
-const loading = ref(false)
+const topics = ref([])
 const error = ref('')
 
 
 onMounted(load)
+
 async function load() {
-    loading.value = true
     try {
         const res = await listNotes()
         notes.value = res.data
+        //  Get the topics
+        const top = await listTopics()
+        topics.value = top.data
+
     } catch (e) {
+        console.log("Error: ", e);
+        
         error.value = 'Failed to load notes'
     }
-    loading.value = false
+}
+
+async function getTopicNotes(topicId) {
+    const res = await listTopicNotes(topicId)
+    notes.value = res.data
 }
 
 
@@ -70,20 +85,12 @@ function format(date) {
 
 
 <style scoped>
-    .note-item {
-        padding: 12px;
-        border: 1px solid #ddd;
-        margin: 6px 0;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .note-item:hover {
-        background: #eef5ff;
-    }
 
     .error {
         color: red;
+    }
+    .note-list > h3 {
+        text-align: center;
+        color: crimson;
     }
 </style>

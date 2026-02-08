@@ -1,7 +1,7 @@
 <template>
   <div v-if="confirm.show">
     <div class="modal fade show d-block" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-top">
         <div class="modal-content">
 
           <div class="modal-header">

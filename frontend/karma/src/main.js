@@ -13,6 +13,7 @@ import NotesEditorPage from './pages/notes/NotesEditorPage.vue'
 import NotesListPage from './pages/notes/NotesListPage.vue'
 import NoteViewerPage from './pages/notes/NoteViewerPage.vue'
 
+
 const routes = [
   { path: '/', component: HomePage, meta: { requiresAuth: true } },
   { path: '/login', component: LoginPage },

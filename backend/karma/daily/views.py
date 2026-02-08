@@ -9,7 +9,6 @@ from .serializers import (DailyKarmaSerializer,
                           ReflectionSerializer)
 # Create your views here.
 
-
 class DailyListCreateView(generics.ListCreateAPIView):
     """
         GET - Returns a list of all karmas

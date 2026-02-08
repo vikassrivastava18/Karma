@@ -1,10 +1,10 @@
 
 <template>
-    <h3 style="text-align: center; color: crimson;">DAILY</h3>
+    <h3 id="dailyHeader">DAILY</h3>
     <div class="wrapper">        
         <div v-for="status in statuses" :key="status.id" :id="status.id" 
-        class="container fixed-size">
-            <h4>
+        class="container fixed-size t-align">
+            <h4 >
                 {{ status.title }} 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn px-4" data-bs-toggle="modal" 
@@ -117,10 +117,14 @@ function onDrop(event, list) {
     editKarma(itemID, list)            
 }     
     
-
 </script>
 
 <style scoped>
+    #dailyHeader {
+        text-align: center; 
+        color: crimson;
+    }
+    
     .container {
         background: #dee8ff;
         border-radius: 10px;
@@ -205,5 +209,8 @@ function onDrop(event, list) {
 
     #us {
         background-color: #e99292;
+    }
+    .t-align {
+        text-align: center;
     }
 </style>

@@ -19,6 +19,20 @@ class NoteCreateListView(generics.ListCreateAPIView):
     serializer_class = NoteSerializer
 
 
+class TopicNotes(generics.ListAPIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        topic_id = self.kwargs['topic_id']
+        return (
+            Note.objects
+            .filter(topic=topic_id)
+            .order_by('-updated_at')
+        )
+
+
 class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -45,6 +59,13 @@ class ImageUploadView(APIView):
 
 
 class TopicListView(generics.ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = NoteTopic.objects.all()
+    serializer_class = TopicSerializer
+
+
+class TopicDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = NoteTopic.objects.all()

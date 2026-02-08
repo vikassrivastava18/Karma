@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="success.show"
-    class="position-fixed bottom-0 start-0 p-3"
+    class="position-fixed top-0 end-0 p-3"
     style="z-index: 11"
   >
     <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">

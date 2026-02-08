@@ -87,10 +87,6 @@ const overdueTaskIds = computed(() => {
         .map(karma => karma.id)
 })
 
-// function truncate(text, length) {
-//     if (!text) return ''
-//     return text.length > length ? text.substring(0, length) + '...' : text
-// }
 
 async function getTodos() {
     const url = baseUrl + '/todo/todos'

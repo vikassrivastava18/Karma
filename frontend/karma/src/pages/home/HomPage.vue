@@ -8,7 +8,7 @@
     </div>
 </template> 
 
-<script>
+<script setup>
 /* eslint-disable */
 
 import { Toast } from 'bootstrap'
@@ -16,42 +16,32 @@ import { Toast } from 'bootstrap'
 import DailyComponent from './components/DailyComponent.vue'
 import TodoComponent from './components/TodoComponent.vue';
 import ReflectionComponent from './components/ReflectionComponent.vue';
-import SuccessToastComponent from '../../components/SuccessToastComponent.vue';
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
-export default {
-    name: 'HomePage',
-    computed: {
-    },
-    components: {
-        DailyComponent,
-        TodoComponent,
-        ReflectionComponent,
-        SuccessToastComponent,      
-    },
-    data() {
-        return {
-        }
-    },
-    mounted() {
-        // Check if the user is authenticated
-        if (!this.$store.state.auth.isAuthenticated) {
-            this.$router.push({ path: '/login' });
-        }       
-    },
+const store = useStore()
+const router = useRouter()
 
-    methods: {
-        showToastPopup() {
-            const toastEl = document.getElementById('liveToast')
-            const toast = new Toast(toastEl)
-            toast.show()
-        },
+onMounted(checkAuthentication)
 
-        getImgUrl(pet) {
-            var images = require.context('../../assets/', false, /\.png$/)
-            return images('../../assets/' + pet + ".svg")
-        },
+function checkAuthentication () {
+    // Redirect to login if the user is not authenticated
+    if (!store.state.auth.isAuthenticated) {
+        router.push({ path: '/login' })
     }
 }
+
+async function showToastPopup() {
+        const toastEl = document.getElementById('liveToast')
+        const toast = new Toast(toastEl)
+        toast.show()
+    }
+
+async function getImgUrl(pet) {
+        var images = require.context('../../assets/', false, /\.png$/)
+        return images('../../assets/' + pet + ".svg")
+    }
 
 </script>
 

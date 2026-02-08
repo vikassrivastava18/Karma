@@ -26,3 +26,8 @@ class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = NoteTopic
         fields = ('id', 'topic')
+
+
+class TopicNotesSerializer(serializers.Serializer):
+    class Meta:
+        model = Note

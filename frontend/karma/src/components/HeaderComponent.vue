@@ -15,6 +15,16 @@
                             Notes
                         </router-link>
                     </li>
+                    <li class="nav-item mt-1" v-if="isAuthenticated">
+                        <router-link to="/notes" class="nav-link text_white">
+                            Daily
+                        </router-link>
+                    </li>
+                    <!-- <li class="nav-item mt-1" v-if="isAuthenticated">
+                        <router-link to="/notes" class="nav-link text_white">
+                            Reports
+                        </router-link> 
+                    </li> -->
                 </ul>   
                 <div class="text-end" v-if="isAuthenticated">
                     <button type="button" class="btn btn-danger me-4" @click="logout">Logout</button>
@@ -64,7 +74,7 @@ export default {
     }
     .text_white {
         color: white;
-        font-size: larger;
+        font-size: smaller
     }
     .nav-link {
         padding: 0.3rem 1rem;

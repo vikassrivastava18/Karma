@@ -20,7 +20,6 @@ import { baseUrl } from '../../../config';
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
 
-
 let reflection = ref('')
 
 
@@ -29,11 +28,11 @@ async function submitReflection() {
     try {
         const url = baseUrl + '/daily/reflections'
         // const re = { reflection: reflection }
-        await proxy.$axios.post(url,  { "reflection": reflection.value })
+        await proxy.$axios.post(url,  { "reflection": reflection.value})        
         proxy.$store.dispatch('success/showSuccess', {
-                title: 'Reflection added for the day.',
-                message: 'Reflection added successfully.'
-            })
+            title: 'Reflection added for the day.',
+            message: 'Reflection added successfully.'
+            });
         reflection.value = '';
     } catch (error) {
         proxy.$store.dispatch('error/showError', {
