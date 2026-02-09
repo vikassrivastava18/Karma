@@ -2,7 +2,7 @@
 from datetime import timedelta, timezone
 from django.utils import timezone
 
-from app.models import *
+from daily.models import *
 
 def add_parayer_karma(date):
     karma = Karma(
@@ -74,12 +74,17 @@ def next_day_date(d):
     # Get the next date from now
     return timezone.now().date() + timedelta(days=d)
 
-for i in range(365):
-    _date = next_day_date(i)
-    add_parayer_karma(_date)
-    add_public_karma(_date)
-    add_play_karma(_date)
-    add_family_karma(_date)
-    add_work_karma(_date)
-    add_study_karma(_date)
+def add_data(days):
+    for i in range(days):
+        _date = next_day_date(i)
+        add_parayer_karma(_date)
+        add_public_karma(_date)
+        add_play_karma(_date)
+        add_family_karma(_date)
+        add_work_karma(_date)
+        add_study_karma(_date)
+
+
+if __name__ == '__main__':
+    add_data(100)
 

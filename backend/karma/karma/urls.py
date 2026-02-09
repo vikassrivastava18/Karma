@@ -13,27 +13,28 @@
         1. Import the include() function: from django.urls import include, path
         2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/auth/', include('auths.urls')),
-    path('api/daily/', include('daily.urls')),
-    path('api/todo/', include('todo.urls')),
-    path('api/notes/', include('notes.urls')),
-    # Schema Generation
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    # Swagger UI
-    path('api/docs/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    # ReDoc UI
-    path('api/docs/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc')
-]
+from drf_spectacular.views import (SpectacularAPIView,
+                                   SpectacularSwaggerView,
+                                   SpectacularRedocView)
 
 if settings.DEBUG:
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('auth/', include('auths.urls')),
+        path('daily/', include('daily.urls')),
+        path('todo/', include('todo.urls')),
+        path('notes/', include('notes.urls')),
+        # Schema Generation
+        path('schema/', SpectacularAPIView.as_view(), name='schema'),
+        # Swagger UI
+        path('docs/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+        # ReDoc UI
+        path('docs/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc')
+    ]
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Serve media files in development

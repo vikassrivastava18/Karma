@@ -1,14 +1,21 @@
-from django.utils.timezone import localdate
+from datetime import timedelta
+from django.utils import timezone
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.decorators import (api_view, authentication_classes,
+                                       permission_classes)
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.authentication import (SessionAuthentication,
                                            TokenAuthentication)
 
 from .models import DailyKarma, Reflection
 from .serializers import (DailyKarmaSerializer,
                           ReflectionSerializer)
-# Create your views here.
+from utils.add_data import add_data
 
+
+# Create your views here.
 class DailyListCreateView(generics.ListCreateAPIView):
     """
         GET - Returns a list of all karmas
@@ -20,7 +27,7 @@ class DailyListCreateView(generics.ListCreateAPIView):
     serializer_class = DailyKarmaSerializer
 
     def get_queryset(self):
-        today = localdate()
+        today = timezone.now().date()
         return DailyKarma.objects.filter(date=today, user=self.request.user)
 
     def post(self, request, *args, **kwargs):
@@ -53,3 +60,18 @@ class ReflectionView(generics.ListCreateAPIView):
         # Automatically set the user field to the authenticated user
         request.data['user'] = request.user.id
         return super().post(request, *args, **kwargs)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def add_daily_data(request, days):
+    try:
+        if not request.user.is_superuser:
+            return PermissionDenied("Only superuser can access this API.")
+        add_data(days)
+        return Response({"message": "Data added successfully"})
+    except Exception as e:
+        print("Error in saving data: ", e)
+        return Response({"messaga": f"Data save failed due to {e}", "status": 500})
+
