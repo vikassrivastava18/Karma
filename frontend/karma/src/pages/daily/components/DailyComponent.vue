@@ -1,9 +1,9 @@
 
 <template>
-    <h3 id="dailyHeader">DAILY</h3>
+    
     <div class="wrapper">        
         <div v-for="status in statuses" :key="status.id" :id="status.id" 
-        class="container fixed-size t-align">
+        class="container fixed-size t-align mt-4">
             <h4 >
                 {{ status.title }} 
                 <!-- Button trigger modal -->
@@ -89,7 +89,6 @@ async function editKarma(id, list) {
             message: 'Item update failed.'
         });
     }
-
 }
 
 function filterItems() {
