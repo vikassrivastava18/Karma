@@ -20,68 +20,57 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { reactive } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { baseUrl } from '../../config';
 
-import { mapActions } from 'vuex';
+const store = useStore();
+const router = useRouter();
 
-export default {
-    name: 'LoginComponent',
-    data() {
-        return {
-            formData: {
-                username: null,
-                password: null
-            }
-        }
-    },
-    components: {
-    },
-    methods: {
-        ...mapActions('auth', ['login']),
-        
-        async submit() {            
-            const url = baseUrl + '/auth/login'
-            const init_obj = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.formData)
-            }
+const formData = reactive({
+    username: '',
+    password: ''
+});
 
-            try {
-                const res = await fetch(url, init_obj)
-                if (!res.ok) {
-                    this.$store.dispatch('error/showError', {
-                    title: 'Login Failed',
-                    message: 'Invalid username or password'
-                }) 
-                return                
-                }
-                const data = await res.json()
-                // Seth the token in local storage
-                localStorage.setItem('Authentication-Token', data.token)
-                // Set the state of isAuthenticated to true
-                this.login()
-                // Redirect to the home page
-                this.$router.push({ path: '/' })
-                // handle success (e.g., show a success message, redirect, etc.)
-            } catch (error) {
-                this.$store.dispatch('error/showError', {
-                    title: 'Something went wrong',
-                    message: 'Please try again later.'
-                })
-            }
+const submit = async () => {
+    const url = `${baseUrl}/auth/login`;
+    const initObj = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
         },
+        body: JSON.stringify(formData)
+    };
+
+    try {
+        const res = await fetch(url, initObj);
+        if (!res.ok) {
+            store.dispatch('error/showError', {
+                title: 'Login Failed',
+                message: 'Invalid username or password'
+            });
+            return;
+        }
+
+        const data = await res.json();
+        localStorage.setItem('Authentication-Token', data.token);
+        store.dispatch('auth/login');
+        router.push({ path: '/' });
+    } catch (error) {
+        store.dispatch('error/showError', {
+            title: 'Something went wrong',
+            message: 'Please try again later.'
+        });
     }
-}
+};
 </script>
 
 
 <style scoped>
     .loginC {
-        height: 100vh;
+        height: 75vh;
         width: 40vw;
         margin: 0 auto;
     }

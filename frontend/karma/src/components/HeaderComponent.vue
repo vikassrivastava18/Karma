@@ -1,5 +1,5 @@
 <template>
-    <header class="mb-2 ps-4 py-1">
+    <header class="mb-2 ps-4 py-2">
         <div class="">
             <div class="d-flex flex-wrap align-items-center 
                 justify-content-center justify-content-lg-start">
@@ -10,18 +10,18 @@
                             <h3 class="px-4 text_black">KARMA</h3>
                         </router-link>
                     </li>
-                    <li class="nav-item mt-1" v-if="isAuthenticated">
-                        <router-link to="/notes" class="nav-link text_white">
+                    <li class="nav-item mt-1 me-4" v-if="isAuthenticated">
+                        <router-link to="/notes" class="nav-link text_black">
                             Notes
                         </router-link>
                     </li>
                     <li class="nav-item mt-1" v-if="isAuthenticated">
-                        <router-link to="/daily" class="nav-link text_white">
+                        <router-link to="/daily" class="nav-link text_black">
                             Daily
                         </router-link>
                     </li>
                     <!-- <li class="nav-item mt-1" v-if="isAuthenticated">
-                        <router-link to="/notes" class="nav-link text_white">
+                        <router-link to="/notes" class="nav-link">
                             Reports
                         </router-link> 
                     </li> -->
