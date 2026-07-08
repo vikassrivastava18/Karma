@@ -21,39 +21,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
-export default {
-  name: 'ErrorToastComponent',
-  setup() {
-    const store = useStore()
+const store = useStore()
 
-    const error = computed(() => store.state.error.errorToast)
+const error = computed(() => store.state.error.errorToast)
 
-    // Auto-hide after 4 seconds
-    watch(
-      () => error.value?.timestamp,
-      () => {
-        if (error.value && error.value.show) {
-          setTimeout(() => {
-            store.dispatch('error/hideError')
-          }, 4000)
-        }
-      }
-    )
-
-    const close = () => {
-      store.dispatch('error/hideError')
-    }
-
-    return {
-      error,
-      close
+// Auto-hide after 4 seconds
+watch(
+  () => error.value?.timestamp,
+  () => {
+    if (error.value && error.value.show) {
+      setTimeout(() => {
+        store.dispatch('error/hideError')
+      }, 4000)
     }
   }
+)
+
+const close = () => {
+  store.dispatch('error/hideError')
 }
+
+
 </script>
 
 <style scoped>
