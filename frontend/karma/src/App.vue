@@ -13,26 +13,13 @@
     <ConfirmModalComponent />
 </template>
 
-<script>
+<script setup>
 import HeaderComponent from './components/HeaderComponent.vue';
 import ToastComponent from './components/SuccessToastComponent.vue';
 import ErrorToastComponent from './components/ErrorToastComponent.vue';
 import ConfirmModalComponent from './components/ConfirmModalComponent.vue';
 import FooterComponent from './components/FooterComponent.vue';
 
-export default {
-    name: 'App',
-    methods: {
-
-    },
-    components: {
-        HeaderComponent,
-        ToastComponent,
-        ErrorToastComponent,
-        ConfirmModalComponent,
-        FooterComponent
-    }
-}
 
 </script>
 
