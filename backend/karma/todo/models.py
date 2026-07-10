@@ -43,5 +43,8 @@ class Todo(models.Model):
     def get_todo_type_display_name(self):
         return self.get_todo_type_display()
 
+    def get_status_display_name(self):
+        return self.get_status_display()
+
     def __str__(self):
-        return f"{self.todo} - {self.get_todo_type_display_name()}"
+        return f"{self.todo} - {self.get_todo_type_display_name()} - ({self.get_status_display_name()})"

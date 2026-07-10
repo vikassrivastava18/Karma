@@ -12,7 +12,7 @@ from rest_framework.authentication import (SessionAuthentication,
 from .models import DailyKarma, Reflection
 from .serializers import (DailyKarmaSerializer,
                           ReflectionSerializer)
-from utils.add_data import add_data
+from utils.add_data import SaveData
 
 
 # Create your views here.
@@ -68,10 +68,16 @@ class ReflectionView(generics.ListCreateAPIView):
 def add_daily_data(request, days):
     try:
         if not request.user.is_superuser:
-            return PermissionDenied("Only superuser can access this API.")
-        add_data(days)
+            raise PermissionDenied("Only superuser can access this API.")
+
+        username = "vikas"
+        save_data = SaveData(username, days)
+        save_data.add_data()
         return Response({"message": "Data added successfully"})
+
     except Exception as e:
-        print("Error in saving data: ", e)
-        return Response({"messaga": f"Data save failed due to {e}", "status": 500})
+        return Response(
+            {"message": f"Data save failed due to {e}"},
+            status=500
+        )
 
