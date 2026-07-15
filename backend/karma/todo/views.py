@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.db.models import Q
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import (SessionAuthentication,
@@ -19,7 +20,12 @@ class ToDoListCreateView(generics.ListCreateAPIView):
     serializer_class = TodoSerializer
 
     def get_queryset(self):
-        return Todo.objects.filter(user=self.request.user)
+        return Todo.objects.filter(
+            user=self.request.user
+        ).filter(
+            Q(status='to') | Q(status='co')
+        ) # status__in=['to', 'co']
+
 
     def post(self, request, *args, **kwargs):
         # Automatically set the user field to the authenticated user
